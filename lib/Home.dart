@@ -25,6 +25,7 @@ class _HomeState extends State<Home> {
   String? Country;
 
   List<Hourly> hourly = [];
+  List<sevenDays> sevenD = [];
 
   Future<({String City, String Country, double Lat, double Long})> Geocoding(
     String location,
@@ -69,12 +70,15 @@ class _HomeState extends State<Home> {
         temperature = data["current"]['temperature_2m'];
         windSpeed = data["current"]['wind_speed_10m'];
         wCode = data["current"]["weather_code"];
-        print("$temperature $windSpeed $wCode");
-        print(data["current"]);
+
         List times = data["hourly"]["time"] ?? [];
         List temp = data["hourly"]["temperature_2m"] ?? [];
         List weatherCode = data["hourly"]["weather_code"] ?? [];
         List<Hourly> list = [];
+
+        List days = data['daily']['time'] ?? [];
+        List maxTemp = data['daily']['temperature_2m_max'] ?? [];
+        List minTemp = data['daily']['temperature_2m_min'] ?? [];
 
         for (int i = 0; i < times.length; i++) {
           list.add(
@@ -85,9 +89,18 @@ class _HomeState extends State<Home> {
             ),
           );
         }
+        List<sevenDays> list1 = [];
+        for (int i = 0; i < days.length; i++) {
+          list1.add(
+            sevenDays(
+              Date: DateTime.parse(days[i]),
+              max: maxTemp[i].toString(),
+              min: minTemp[i].toString(),
+            ),
+          );
+        }
         hourly = list;
-        setState(() {});
-        print(times);
+        sevenD = list1;
       } else {
         errorMsg = "something went wrong";
       }
@@ -123,7 +136,7 @@ class _HomeState extends State<Home> {
                   padding: const EdgeInsets.all(16.0),
                   child: Text(
                     "wind $windSpeed kmps",
-                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
                   ),
                 ),
               ),
@@ -141,6 +154,27 @@ class _HomeState extends State<Home> {
                             Text('${e.time.hour}:${e.time.minute}'),
                             CodeToIcon(e.code),
                             Text('${e.temp}°'),
+                          ],
+                        ),
+                      );
+                    }).toList(),
+                  ),
+                ),
+              ),
+              SizedBox(height: 8),
+              Card(
+                child: Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Column(
+                    children: sevenD.map((e) {
+                      return Container(
+                        height:30,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text('${e.Date.year}-${e.Date.month}-${e.Date.day}'),
+                            Text('High:${e.max}°'),
+                            Text('Low:${e.min}°'),
                           ],
                         ),
                       );
@@ -219,7 +253,6 @@ class _HomeState extends State<Home> {
     return Icon(Icons.cloud);
   }
 
-
   Widget FieldSection() {
     return Row(
       children: [
@@ -277,4 +310,12 @@ class Hourly {
   final int code;
 
   Hourly({required this.time, required this.temp, required this.code});
+}
+
+class sevenDays {
+  final DateTime Date;
+  final String max;
+  final String min;
+
+  sevenDays({required this.Date, required this.max, required this.min});
 }
