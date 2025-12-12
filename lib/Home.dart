@@ -218,6 +218,7 @@ class _HomeState extends State<Home> {
     if ([45, 48].contains(c)) {
       return Icon(Icons.foggy);
     }
+
     return Icon(Icons.cloud);
   }
 
