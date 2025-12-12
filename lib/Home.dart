@@ -131,6 +131,7 @@ class _HomeState extends State<Home> {
               InformationSection(),
               SizedBox(height: 16),
               Card(
+                color:Colors.yellow.shade200,
                 elevation: 0,
                 child: Padding(
                   padding: const EdgeInsets.all(16.0),
@@ -162,7 +163,7 @@ class _HomeState extends State<Home> {
                 ),
               ),
               SizedBox(height: 8),
-              Card(
+              Card(color: Colors.lightBlue.shade100,
                 child: Padding(
                   padding: const EdgeInsets.all(16.0),
                   child: Column(

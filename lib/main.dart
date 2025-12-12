@@ -17,7 +17,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         filledButtonTheme:FilledButtonThemeData(
           style:FilledButton.styleFrom(
-            backgroundColor:Colors.white,
+            backgroundColor:Colors.white54,
             foregroundColor: Colors.black,
             fixedSize:Size.fromHeight(45),
             shape: RoundedRectangleBorder(
