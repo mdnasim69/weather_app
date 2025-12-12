@@ -27,7 +27,8 @@ class _HomeState extends State<Home> {
   List<Hourly> hourly = [];
 
   Future<({String City, String Country, double Lat, double Long})> Geocoding(
-      String location,) async {
+    String location,
+  ) async {
     Uri uri = Uri.parse(
       "https://geocoding-api.open-meteo.com/v1/search?name=$location&count=1&language=en&format=json",
     );
@@ -56,11 +57,10 @@ class _HomeState extends State<Home> {
     try {
       Uri uri = Uri.parse(
         'https://api.open-meteo.com/v1/forecast?'
-            'latitude=${getGeo.Lat}&longitude=${getGeo
-            .Long}&daily=temperature_2m_max,'
-            'temperature_2m_min,weather_code&hourly=temperature_2m,'
-            'weather_code&current=temperature_2m,'
-            'weather_code,wind_speed_10m',
+        'latitude=${getGeo.Lat}&longitude=${getGeo.Long}&daily=temperature_2m_max,'
+        'temperature_2m_min,weather_code&hourly=temperature_2m,'
+        'weather_code&current=temperature_2m,'
+        'weather_code,wind_speed_10m',
       );
       Response response = await get(uri);
       Map<String, dynamic> data = jsonDecode(response.body);
@@ -86,9 +86,7 @@ class _HomeState extends State<Home> {
           );
         }
         hourly = list;
-        setState(() {
-
-        });
+        setState(() {});
         print(times);
       } else {
         errorMsg = "something went wrong";
@@ -142,7 +140,7 @@ class _HomeState extends State<Home> {
                             Text('${e.time.day}/${e.time.month}'),
                             Text('${e.time.hour}:${e.time.minute}'),
                             CodeToIcon(e.code),
-                            Text('${e.temp}°')
+                            Text('${e.temp}°'),
                           ],
                         ),
                       );
